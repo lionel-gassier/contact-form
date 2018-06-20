@@ -22,7 +22,6 @@
                 <label>Question</label><br>
                 {{ form_widget(demande.demande) }}
             </div>
-            {% do demande.traite.setRendered %}
         {% endfor%}
     </div>
     <button type="submit">Valider</button>

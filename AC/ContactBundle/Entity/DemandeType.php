@@ -14,21 +14,34 @@ use Symfony\Component\Form\FormEvent;
 class DemandeType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $this->origin = $options['origin'];
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $builder = $event->getForm();
-            $builder->add('demande', TextareaType::class, array(
-                'required' => true,
-            ));
-            $builder->add('traite', CheckboxType::class, array(
-                'required' => FALSE,
-            ));
+
+           if($this->origin != 'admin'){
+ //           if(true){
+                $builder->add('demande', TextareaType::class, array(
+                    'required' => true,
+                ));
+            }
+            else{
+                $builder->add('traite', CheckboxType::class, array(
+                    'required' => FALSE,
+                ));
+            }
         });
     }
+    
+    
 
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => Demande::class,
+            'origin' => ''
         ));
+        $resolver->setRequired('origin');
+        $resolver->setAllowedTypes('origin', 'string');
+
     }
 
 }
